@@ -11,11 +11,11 @@ All commands run via SBT console
 ## Commands
 - Build subgraph with all nodes connected by a single edge type
 
-`run singleEdge propertyId {-p or --properties} outputFile.jsonld`
+`run singleEdge edgeId {-p or --properties} outputFile.jsonld`
 
 `-p` flag optionally includes all node properties (i.e. literal values) and vastly increases runtime
 
-`propertyId` should be formatted such as `P1542` for "has effect"
+`edgeId` should be formatted such as `P1542` for "[has effect](https://www.wikidata.org/wiki/Property:P1542)", as per Wikidata
 
 - Build subgraph with Wikipedia URLs and Wikidata relationships
 
