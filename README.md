@@ -5,6 +5,7 @@ It is a work in progress so feel free to contact me with suggestions or requests
 
 ## Setup
 Requirements: Scala 2.11 and SBT
+
 All commands run via SBT console
 
 ## Commands
