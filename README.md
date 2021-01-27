@@ -9,7 +9,7 @@ Requirements: Scala 2.11 and SBT
 All commands run via SBT console
 
 ## Commands
-- Build subgraph with all nodes connected by a single property
+- Build subgraph with all nodes connected by a single edge type
 
 `run singleEdge propertyId {-p or --properties} outputFile.jsonld`
 
