@@ -21,7 +21,7 @@ All commands run via SBT console
 
 `run buildFromWikipediaURLs listOfURLs.txt outputFile.jsonld`
 
-`listOfURLs.txt` should be a list of English Wikipedia page URLs, to include one per line. Mapping from Wikipedia to Wikidata is done via the English Wikipedia API. Mapping errors will be printed to the console.
+`listOfURLs.txt` should be a list of English Wikipedia page URLs to include, one per line. Mapping from Wikipedia to Wikidata is done via the English Wikipedia API. Mapping errors will be printed to the console.
 
 Only Wikidata relationships between the URLs in this list will be included in the generated subgraph.
 
