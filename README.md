@@ -1,5 +1,5 @@
 # wikidata-subgraph-builder
-This tool pulls configurable subsets of Wikidata and writes the results to file in JSON-LD format. To do so, it constructs SPARQL and requests data from the Wikidata Query Service API.
+This tool extracts configurable subsets of Wikidata and writes the results to file in JSON-LD format. To do so, it constructs SPARQL and requests data from the Wikidata Query Service API.
 
 It is a work in progress so feel free to contact me with suggestions or requests.
 
