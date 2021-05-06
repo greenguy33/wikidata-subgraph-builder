@@ -65,26 +65,40 @@ object SubgraphBuilder
         var res = ""
         println("Collecting Wikibase Ids")
         val idMap = WikibaseIdFinder.getWikibaseIds(wikipediaURLFile)
-        val wikidataListAsString = idMap._2.mkString(" ")
-        println("Querying Wikidata")
-        for ((k,v) <- idMap._1)
+
+        val batchSize = 200
+        val wdIds = idMap.values
+        val batchedIds = wdIds.grouped(batchSize).toList
+        println("Processing " + idMap.keys.size + " Wikidata items")
+        
+        for (id <- wdIds)
         {
-             val getNodeConnections = 
-               s"""construct {
-                    ?s ?p ?o .
-                    ?p rdfs:label ?edgeLabel .
-                    } where {
-                    values ?o {$wikidataListAsString}
-                    values ?s {wd:$v}
-                    ?s ?p ?o .
-                    SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
-                    ?edge wikibase:directClaim ?p .
-                    }"""
-             val is: InputStream = Utilities.get(Utilities.encodeURL(urlHead, getNodeConnections))
-             val jsonld = io.Source.fromInputStream(is, "UTF-8").mkString
-             if (jsonld.length > 3) res += jsonld
+            //println("id: " + id)
+            for (batch <- batchedIds)
+            {
+                 val wikidataListAsString = batch.mkString("wd:"," wd:","")
+                 val getNodeConnections = 
+                   s"""construct {
+                        ?s ?p ?o .
+                        ?p rdfs:label ?edgeLabel .
+                        } where {
+                        values ?o {$wikidataListAsString}
+                        values ?s {wd:$id}
+                        ?s ?p ?o .
+                        SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+                        ?edge wikibase:directClaim ?p .
+                        }"""
+
+                 //println(getNodeConnections)
+                 val encodedQuery = Utilities.encodeURL(urlHead, getNodeConnections, "UTF-8")
+                 //println(encodedQuery)
+                 val is: InputStream = Utilities.get(encodedQuery)
+                 val jsonld = io.Source.fromInputStream(is, "UTF-8").mkString
+                 if (jsonld.length > 3) res += jsonld
+            }
         }
-        for ((k,v) <- idMap._1) res = res.replaceAll("\"http://www.wikidata.org/entity/"+v+"\"","\""+k+"\"")
+
+        for ((k,v) <- idMap) res = res.replaceAll("\"http://www.wikidata.org/entity/"+v+"\"","\""+k+"\"")
         Utilities.writeQueryResToFile(res, outputFile)
     }
     

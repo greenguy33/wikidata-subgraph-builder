@@ -36,6 +36,11 @@ object Utilities
     {
         url + URLEncoder.encode(params, encodingScheme)
     }
+
+     def encodeURL(url: String, encodingScheme: String): String =
+    {
+        URLEncoder.encode(url, encodingScheme)
+    }
     
     def get(url: String, connectTimeout: Int = 5000, readTimeout: Int = 100000, acceptType: String = "application/ld+json"): InputStream =
     {
