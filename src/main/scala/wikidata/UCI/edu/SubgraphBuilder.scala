@@ -69,10 +69,12 @@ object SubgraphBuilder
         val batchSize = 200
         val wdIds = idMap.values
         val batchedIds = wdIds.grouped(batchSize).toList
-        println("Processing " + idMap.keys.size + " Wikidata items")
+        println("Processing " + wdIds.size + " Wikidata items")
         
+        var count = 0
         for (id <- wdIds)
         {
+            count = count + 1
             //println("id: " + id)
             for (batch <- batchedIds)
             {
@@ -96,9 +98,15 @@ object SubgraphBuilder
                  val jsonld = io.Source.fromInputStream(is, "UTF-8").mkString
                  if (jsonld.length > 3) res += jsonld
             }
+            if (count % 20 == 0 && count != 0) println("Processed " + count + " out of " + wdIds.size + " items")
         }
 
-        for ((k,v) <- idMap) res = res.replaceAll("\"http://www.wikidata.org/entity/"+v+"\"","\""+k+"\"")
+        for ((k,v) <- idMap) 
+        {
+            var wikiUrl = k
+            if (!wikiUrl.contains("https://en.wikipedia.org/wiki/")) wikiUrl = "https://en.wikipedia.org/wiki/" + k.replaceAll(" ","_")
+            res = res.replaceAll("\"http://www.wikidata.org/entity/"+v+"\"","\""+wikiUrl+"\"")
+        }
         Utilities.writeQueryResToFile(res, outputFile)
     }
     
