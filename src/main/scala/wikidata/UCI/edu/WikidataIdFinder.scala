@@ -23,7 +23,8 @@ object WikibaseIdFinder
         val source = Source.fromFile(filename)
         for (line <- source.getLines())
         {
-            val pageTitle = line.split("\\/").last
+            var pageTitle = line
+            if (pageTitle.contains("https://en.wikipedia.org/wiki/")) pageTitle = line.split("\\/").last
             if (!pageTitle.contains("#"))
             {
                 val newUrl = apiUrl.replace("pageTitle", pageTitle)
