@@ -33,5 +33,7 @@ https://en.wikipedia.org/wiki/Society
 https://en.wikipedia.org/wiki/Social_science
 ```
 
+You can also include just page titles in the list, rather than the full URLs. URLs and page titles can be mixed and matched within a list.
+
 # TODO
 - Server timeouts for large queries not handled nicely
